@@ -1,0 +1,11 @@
+Name: sockets-enh
+Version: 1.2.0
+Date: 2014-05-21
+Author: John Swensen <jpswensen@comcast.net>
+Maintainer: Andreas Weber <andy.weber.aw@gmail.com>
+Title: Enhanced Sockets
+Description: Socket functions for networking from within octave.
+Categories: Sockets
+Depends: octave (>= 3.6.0)
+License: GPLv3+
+Url: https://github.com/octave-de/

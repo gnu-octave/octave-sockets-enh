@@ -1,0 +1,84 @@
+#! /usr/local/bin/octave -q
+
+# Simple serialization
+
+function s = mat2str(a)
+	s = [sprintf("%d ", size(a)) ":" sprintf("%g ", a)];
+end
+
+function a = str2mat(s)
+	i = strfind(s, ":");
+	a = str2num(s(i + 1:end));
+	d = str2num(s(1:i - 1));
+	a = reshape(a, d);
+end
+
+# Server. Accept incoming connections and send them a random matrix.
+
+function test_server()
+	s = socket(AF_INET, SOCK_STREAM, 0);
+	if s < 0
+		return
+	end
+
+	if bind(s, 9001) < 0
+		fprintf("bind failed\n");
+		return
+	end
+
+	if listen(s, 1) < 0
+		return
+	end
+
+	c = accept(s);
+	if c < 0
+		return
+	end
+
+	# Send a matrix.
+
+	a = rand(10);
+	n = send(c, mat2str(a));
+
+	disconnect(c);
+	disconnect(s);
+end
+
+# Client. Create a connection and read a result.
+
+function test_client()
+	s = socket(AF_INET, SOCK_STREAM, 0);
+	if s < 0
+		return
+	end
+
+	addr = struct("addr", "127.0.0.1", "port", 9001);
+	if connect(s, addr) < 0
+		return
+	end
+
+	[d, l] = recv(s, 1000);
+	if d == -1
+		return
+	end
+	d = num2str(d, '%c');
+
+	a = str2mat(d);
+
+	disp(a);
+
+	disconnect(s);
+end
+
+args = argv();
+
+if length(args) < 1
+	printf("usage: test_socket [s|c]\nUse 's' first.");
+	return
+end
+
+if args{1} == 's'
+	test_server();
+else
+	test_client();
+end

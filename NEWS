@@ -1,0 +1,8 @@
+Summary of important user-visible changes for sockets-enh 1.2.0:
+-------------------------------------------------------------------
+
+ ** This package was forked from the OF sockets
+
+ ** Functions now throws octave errors with string description
+
+ ** New functions setsockopt and getsockopt to manipulate socket options
