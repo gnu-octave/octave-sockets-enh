@@ -4,7 +4,7 @@
 
 make
 cd ../../
-tar czf sockets.tar.gz octave-sockets
-octave -q --eval "pkg install sockets.tar.gz"
+tar czf sockets-enh.tar.gz octave-sockets-enh
+octave -q --eval "pkg install sockets-enh.tar.gz"
 cd -
-octave -q --eval "pkg load sockets; test socket"
+octave -q --eval "pkg load sockets-enh; test socket"
