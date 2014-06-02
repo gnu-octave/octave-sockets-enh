@@ -819,7 +819,7 @@ Get option for specified socket. See also TODO getsockopt\n\
     error ("getsockopt: LEVEL and OPT must be integer values");
 
   int value;
-  socklen_t len;
+  socklen_t len = 4;  //value is a int. TODO, this may be architecture dependent. Use int32 instead?
   int ret = getsockopt(s, level, opt, &value, &len);
   if (ret == -1)
     error ("setsockopt failed with error %i (%s)", errno, strerror(errno));
